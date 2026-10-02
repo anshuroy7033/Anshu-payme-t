@@ -3,213 +3,331 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pay via UPI</title>
-    <!-- QR Code Library -->
+    <title>Anshu Roy | Official Space</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- QR Code Library for Desktop Users -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
 
         body {
-            background: linear-gradient(135deg, #eef2f7 0%, #dbe2ef 100%);
+            background: linear-gradient(135deg, #090d16, #111827);
+            color: #f3f4f6;
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;
-            padding: 20px;
+            padding: 24px 14px;
         }
 
-        .payment-card {
-            background: #ffffff;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        .container {
             width: 100%;
-            max-width: 360px;
-            padding: 28px 24px;
+            max-width: 440px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Profile Section */
+        .profile-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 24px;
             text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
         }
 
-        .card-header h2 {
-            font-size: 20px;
-            color: #1a1a1a;
-            margin-bottom: 4px;
+        .avatar {
+            width: 86px;
+            height: 86px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #ec4899);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            font-weight: 700;
+            color: #ffffff;
+            margin: 0 auto 12px;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
         }
 
-        .card-header p {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 20px;
+        .profile-card h1 {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
 
-        /* QR Code Container */
-        .qr-wrapper {
-            background: #fdfdfd;
-            border: 2px dashed #008060;
-            border-radius: 12px;
-            padding: 16px;
-            display: inline-block;
-            margin-bottom: 16px;
-        }
-
-        #qrcode img, #qrcode canvas {
-            margin: 0 auto;
-            border-radius: 8px;
-        }
-
-        .scan-text {
+        .profile-card p {
             font-size: 13px;
-            color: #555;
-            margin-bottom: 16px;
+            color: #9ca3af;
+            margin-top: 4px;
         }
 
-        /* UPI ID & Copy Box */
+        /* Content Boxes */
+        .box {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 18px;
+            padding: 20px;
+            backdrop-filter: blur(12px);
+        }
+
+        .section-title {
+            font-size: 15px;
+            color: #60a5fa;
+            font-weight: 600;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Buttons Grid / Stack */
+        .btn-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 13px 18px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            color: #ffffff;
+            transition: transform 0.15s ease, opacity 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-insta { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+        .btn-fb { background: #1877f2; }
+        .btn-wa { background: #25d366; }
+        .btn-call { background: #0284c7; }
+        .btn-pay { background: #059669; }
+
+        /* UPI Section */
+        .qr-area {
+            background: #ffffff;
+            padding: 12px;
+            border-radius: 12px;
+            display: inline-block;
+            margin: 10px auto;
+        }
+
         .upi-box {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: #f4f6f8;
+            background: rgba(255, 255, 255, 0.07);
             border-radius: 8px;
-            padding: 8px 12px;
-            margin-bottom: 16px;
+            padding: 10px 14px;
+            margin: 10px 0;
             font-size: 13px;
-            color: #333;
         }
 
         .upi-box span {
+            color: #38bdf8;
             font-weight: 600;
-            word-break: break-all;
-            text-align: left;
-            margin-right: 8px;
         }
 
         .copy-btn {
-            background: #e2e8f0;
+            background: #334155;
+            color: white;
             border: none;
-            padding: 6px 10px;
+            padding: 6px 12px;
             border-radius: 6px;
             font-size: 12px;
             cursor: pointer;
-            font-weight: bold;
-            color: #1e293b;
-            transition: all 0.2s ease;
-            white-space: nowrap;
         }
 
-        .copy-btn:hover {
-            background: #cbd5e1;
-        }
-
-        .divider {
-            display: flex;
-            align-items: center;
-            text-align: center;
-            margin: 14px 0;
-            color: #888;
-            font-size: 12px;
-        }
-
-        .divider::before, .divider::after {
-            content: '';
-            flex: 1;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .divider:not(:empty)::before {
-            margin-right: .5em;
-        }
-
-        .divider:not(:empty)::after {
-            margin-left: .5em;
-        }
-
-        /* Mobile Pay Button */
-        .pay-btn {
-            display: block;
-            width: 100%;
-            background: #008060;
-            color: #ffffff;
-            border: none;
-            padding: 13px;
-            font-size: 16px;
-            font-weight: 600;
+        /* Shayari Styling */
+        .shayari-card {
+            background: rgba(15, 23, 42, 0.7);
+            border-left: 4px solid #f59e0b;
+            padding: 12px 14px;
             border-radius: 8px;
-            text-decoration: none;
-            cursor: pointer;
-            transition: background 0.2s ease;
+            margin-bottom: 12px;
+            font-size: 13.5px;
+            line-height: 1.6;
+            color: #e2e8f0;
         }
 
-        .pay-btn:hover {
-            background: #00664d;
+        .shayari-card:last-child {
+            margin-bottom: 0;
         }
 
-        .note {
-            margin-top: 14px;
+        .tag {
+            font-size: 10px;
+            text-transform: uppercase;
+            color: #f59e0b;
+            font-weight: 700;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        /* Video Container */
+        .video-box {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .video-box iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        footer {
+            text-align: center;
             font-size: 11px;
-            color: #888;
+            color: #6b7280;
+            padding-bottom: 10px;
         }
     </style>
 </head>
 <body>
 
-<div class="payment-card">
-    <div class="card-header">
-        <h2>Pay to Anshu</h2>
-        <p>Scan with any UPI App</p>
+<div class="container">
+
+    <!-- Profile Header -->
+    <div class="profile-card">
+        <div class="avatar">AR</div>
+        <h1>Anshu Roy</h1>
+        <p>Digital Creator & Developer</p>
     </div>
 
-    <!-- QR Code -->
-    <div class="qr-wrapper">
-        <div id="qrcode"></div>
+    <!-- Social Links -->
+    <div class="box">
+        <div class="section-title"><i class="fa-solid fa-share-nodes"></i> Social Links</div>
+        <div class="btn-stack">
+            <a href="https://www.instagram.com/__heyy__anshu?stkn=MWV0b3h1d2czbGU5NQ==" target="_blank" class="btn btn-insta">
+                <i class="fa-brands fa-instagram"></i> Instagram (@__heyy__anshu)
+            </a>
+            <a href="https://www.facebook.com/share/1FAFeahpH8/" target="_blank" class="btn btn-fb">
+                <i class="fa-brands fa-facebook-f"></i> Facebook Profile
+            </a>
+            <a href="https://wa.me/919326470581?text=Hello%20Anshu" target="_blank" class="btn btn-wa">
+                <i class="fa-brands fa-whatsapp"></i> WhatsApp Chat
+            </a>
+            <a href="tel:+919326470581" class="btn btn-call">
+                <i class="fa-solid fa-phone"></i> Call (+91 9326470581)
+            </a>
+        </div>
     </div>
-    
-    <div class="scan-text">GPay, PhonePe, Paytm, BHIM</div>
 
-    <!-- UPI ID Copy Bar -->
-    <div class="upi-box">
-        <span id="upiId">anshuroy53579@ibl</span>
-        <button class="copy-btn" onclick="copyUPI()">Copy</button>
+    <!-- Payment Section -->
+    <div class="box" style="text-align: center;">
+        <div class="section-title" style="justify-content: center;"><i class="fa-solid fa-wallet"></i> Pay via UPI</div>
+        
+        <!-- QR Code -->
+        <div class="qr-area">
+            <div id="qrcode"></div>
+        </div>
+        <p style="font-size: 11px; color: #9ca3af; margin-bottom: 8px;">Scan with PhonePe, GPay, Paytm</p>
+
+        <!-- Copy Bar -->
+        <div class="upi-box">
+            <span id="upiText">anshuroy53579@ibl</span>
+            <button class="copy-btn" onclick="copyUPI()">Copy ID</button>
+        </div>
+
+        <!-- Direct App Link -->
+        <a href="upi://pay?pa=anshuroy53579@ibl&pn=Anshu%20Roy&cu=INR" class="btn btn-pay" style="margin-top: 10px;">
+            <i class="fa-solid fa-bolt"></i> Open in UPI App
+        </a>
     </div>
 
-    <div class="divider">या मोबाइल पर सीधा खोलें</div>
+    <!-- Shayari Section -->
+    <div class="box">
+        <div class="section-title"><i class="fa-solid fa-quote-left"></i> Shayariyaan</div>
+        
+        <div class="shayari-card">
+            <span class="tag">🔥 Motivation</span>
+            "लहरों से डर कर नौका पार नहीं होती,<br>
+            कोशिश करने वालों की कभी हार नहीं होती।"
+        </div>
 
-    <!-- Direct UPI Button for Mobile -->
-    <a href="upi://pay?pa=anshuroy53579@ibl&pn=Anshu&cu=INR" class="pay-btn">
-        💰 Open in UPI App
-    </a>
+        <div class="shayari-card">
+            <span class="tag">⚡ Success</span>
+            "ख्वाहिशों से नहीं गिरते हैं फूल झोली में,<br>
+            कर्म की शाख को हिलाना होगा...<br>
+            कुछ नहीं होगा कोसने से अंधेरे को,<br>
+            अपने हिस्से का दीया खुद ही जलाना होगा।"
+        </div>
 
-    <div class="note">डेस्कटॉप यूज़र्स क्यूआर कोड स्कैन करें, मोबाइल यूज़र्स बटन पर टैप करें।</div>
+        <div class="shayari-card">
+            <span class="tag">👑 Attitude & Style</span>
+            "पहचान ऐसी बनाओ कि जहां तुम न हो,<br>
+            वहां तुम्हारी बातें हों, और जहां तुम खड़े हो जाओ,<br>
+            वहां किसी और की बात न हो।"
+        </div>
+
+        <div class="shayari-card">
+            <span class="tag">🎯 Life Truth</span>
+            "वक्त से लड़कर जो नसीब बदल दे,<br>
+            इंसान वही जो अपनी तकदीर बदल दे।"
+        </div>
+    </div>
+
+    <!-- Motivational Video -->
+    <div class="box">
+        <div class="section-title"><i class="fa-solid fa-circle-play"></i> Daily Motivation</div>
+        <div class="video-box">
+            <iframe src="https://www.youtube.com/embed/ZxKM3DCV2kE" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <footer>
+        © 2026 Anshu Roy • All Rights Reserved
+    </footer>
+
 </div>
 
 <script>
-    // UPI Link
-    const upiURL = "upi://pay?pa=anshuroy53579@ibl&pn=Anshu&cu=INR";
-
-    // Generate QR Code
+    // QR Code Generation
+    const upiLink = "upi://pay?pa=anshuroy53579@ibl&pn=Anshu%20Roy&cu=INR";
     new QRCode(document.getElementById("qrcode"), {
-        text: upiURL,
-        width: 180,
-        height: 180,
+        text: upiLink,
+        width: 150,
+        height: 150,
         colorDark: "#000000",
-        colorLight: "#ffffff",
-        correctLevel: QRCode.CorrectLevel.M
+        colorLight: "#ffffff"
     });
 
-    // Copy to clipboard function
+    // Copy to clipboard
     function copyUPI() {
-        const upiText = document.getElementById("upiId").innerText;
-        navigator.clipboard.writeText(upiText).then(() => {
+        const text = document.getElementById("upiText").innerText;
+        navigator.clipboard.writeText(text).then(() => {
             const btn = document.querySelector(".copy-btn");
             btn.innerText = "Copied! ✓";
-            btn.style.background = "#d1fae5";
-            btn.style.color = "#065f46";
+            btn.style.background = "#10b981";
             setTimeout(() => {
-                btn.innerText = "Copy";
-                btn.style.background = "#e2e8f0";
-                btn.style.color = "#1e293b";
+                btn.innerText = "Copy ID";
+                btn.style.background = "#334155";
             }, 2000);
         });
     }
