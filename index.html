@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pay via UPI</title>
+    <!-- QR Code Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #eef2f7 0%, #dbe2ef 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .payment-card {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 360px;
+            padding: 28px 24px;
+            text-align: center;
+        }
+
+        .card-header h2 {
+            font-size: 20px;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+
+        .card-header p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        /* QR Code Container */
+        .qr-wrapper {
+            background: #fdfdfd;
+            border: 2px dashed #008060;
+            border-radius: 12px;
+            padding: 16px;
+            display: inline-block;
+            margin-bottom: 16px;
+        }
+
+        #qrcode img, #qrcode canvas {
+            margin: 0 auto;
+            border-radius: 8px;
+        }
+
+        .scan-text {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 16px;
+        }
+
+        /* UPI ID & Copy Box */
+        .upi-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f4f6f8;
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin-bottom: 16px;
+            font-size: 13px;
+            color: #333;
+        }
+
+        .upi-box span {
+            font-weight: 600;
+            word-break: break-all;
+            text-align: left;
+            margin-right: 8px;
+        }
+
+        .copy-btn {
+            background: #e2e8f0;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #1e293b;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .copy-btn:hover {
+            background: #cbd5e1;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 14px 0;
+            color: #888;
+            font-size: 12px;
+        }
+
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .divider:not(:empty)::before {
+            margin-right: .5em;
+        }
+
+        .divider:not(:empty)::after {
+            margin-left: .5em;
+        }
+
+        /* Mobile Pay Button */
+        .pay-btn {
+            display: block;
+            width: 100%;
+            background: #008060;
+            color: #ffffff;
+            border: none;
+            padding: 13px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .pay-btn:hover {
+            background: #00664d;
+        }
+
+        .note {
+            margin-top: 14px;
+            font-size: 11px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+<div class="payment-card">
+    <div class="card-header">
+        <h2>Pay to Anshu</h2>
+        <p>Scan with any UPI App</p>
+    </div>
+
+    <!-- QR Code -->
+    <div class="qr-wrapper">
+        <div id="qrcode"></div>
+    </div>
+    
+    <div class="scan-text">GPay, PhonePe, Paytm, BHIM</div>
+
+    <!-- UPI ID Copy Bar -->
+    <div class="upi-box">
+        <span id="upiId">anshuroy53579@ibl</span>
+        <button class="copy-btn" onclick="copyUPI()">Copy</button>
+    </div>
+
+    <div class="divider">या मोबाइल पर सीधा खोलें</div>
+
+    <!-- Direct UPI Button for Mobile -->
+    <a href="upi://pay?pa=anshuroy53579@ibl&pn=Anshu&cu=INR" class="pay-btn">
+        💰 Open in UPI App
+    </a>
+
+    <div class="note">डेस्कटॉप यूज़र्स क्यूआर कोड स्कैन करें, मोबाइल यूज़र्स बटन पर टैप करें।</div>
+</div>
+
+<script>
+    // UPI Link
+    const upiURL = "upi://pay?pa=anshuroy53579@ibl&pn=Anshu&cu=INR";
+
+    // Generate QR Code
+    new QRCode(document.getElementById("qrcode"), {
+        text: upiURL,
+        width: 180,
+        height: 180,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.M
+    });
+
+    // Copy to clipboard function
+    function copyUPI() {
+        const upiText = document.getElementById("upiId").innerText;
+        navigator.clipboard.writeText(upiText).then(() => {
+            const btn = document.querySelector(".copy-btn");
+            btn.innerText = "Copied! ✓";
+            btn.style.background = "#d1fae5";
+            btn.style.color = "#065f46";
+            setTimeout(() => {
+                btn.innerText = "Copy";
+                btn.style.background = "#e2e8f0";
+                btn.style.color = "#1e293b";
+            }, 2000);
+        });
+    }
+</script>
+
+</body>
+</html>
